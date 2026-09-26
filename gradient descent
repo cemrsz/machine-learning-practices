@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-
+import math as m
 
 
 
@@ -25,11 +25,6 @@ data = {
 df = pd.DataFrame(data)
 
 
-
-
-
-
-
 # Metinleri sayısal değerlere çevir
 okul_encoder = LabelEncoder() #label encoder sınıfını çağırdım
 student_encoder = LabelEncoder() #label encoder sınıfını çağırdım
@@ -43,34 +38,35 @@ print(df[["student", "student_encoded", "Okul", "okul_encoded"]])
 
 
 
+# x: çalışma saati,okul numarası y: sınav puanı,öğrenci klasmanı
+x=df["çalışma_saati"]
+y=df["sınav_puanı"]
 
-
-
-
-# x: çalışma saati, y: sınav puanı
-x=df[["çalışma_saati","okul_encoded"]].to_numpy(dtype=float) 
-y=df[["student_encoded","sınav_puanı"]].to_numpy(dtype=float)
 
 w = 0.0
 b = 0.0
-alpha = 0.01 #learning rate
-model = w * x + b #Linear model
+alpha = 0.01 #learning rate x kat sayısı yani
+model = w * x + b #Linear model için train set oluşturuyorum
+iterations = 1000 #kaç kere dönsün gradient descent fonksiyonu
+
 
 def gradient_descent(): #kademeleli azaltma fonksiynonu
     w = 0.0
     b = 0.0
     alpha = 0.01 #learning rate
 
-    for _ in range(1000):
-        model = w * x + b #Linear model çift tanım var biliyorum ama bunu silsek problem olmaz çünkü gradient descent fonksiyonu dısında tanımladık
-        error = model - y #loss function
-
-    dw = (2 / len(x)) * np.sum(error * x) #loss function'un türevi
-    db = (2 / len(x)) * np.sum(error) #loss function'un türevi dw, db → “Daha az yanlış olmak için w ve b hangi yönde değişmeli?”
-
-    w = w - alpha * dw #gradient descent güncelleme kuralı w için
-    b = b - alpha * db #gradient descent güncelleme kuralı b için
-
+    for _ in range(iterations): #compute_gradients döngüsü iterations kadar çağır
+        model = w * x + b #Linear model
+        error = model - y #tahmin - gerçek function yani aradaki fark
+          
+        dw = (2 / len(x)) * np.sum(error * x) #loss function'un türevi
+        db = (2 / len(x)) * np.sum(error) #loss function'un türevi dw, db → “Daha az yanlış olmak için w ve b hangi yönde değişmeli?”
+        
+        w = w - alpha * dw #gradient descent güncelleme kuralı w için
+        b = b - alpha * db #gradient descent güncelleme kuralı b için #genel formul 
+    return w, b  #w,b ve geri döndür
+w,b=gradient_descent() #gradient descent fonksiyonunu çağırıp w ve b en son değere  güncelledim çünkü gradient descent fonksiyonu içinde w ve b zaten returnlerdi ben de bunları eşitledim
+model=w*x+b #bu da modelin kendisi yani tahmin edilen değerler yukarıda gradient descent fonksiyonunu çağırıp w ve b değerlerini güncelledim
 
 print(f"w: {w:.2f}, b: {b:.2f}")
 print(f"7 saat çalışanın tahmini puanı: {w * 7 + b:.1f}")
@@ -81,3 +77,4 @@ plt.xlabel("Çalışma saati")
 plt.ylabel("Sınav puanı")
 plt.legend()
 plt.show()
+
