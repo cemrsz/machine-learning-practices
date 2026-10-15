@@ -1,0 +1,22 @@
+# '#' işareti yorum satırıdır, Git burayı okumaz.
+
+# 1. Belirli bir dosyayı gizlemek:
+gizli_bilgiler.txt
+.env
+
+# 2. Belirli bir uzantıya sahip TÜM dosyaları gizlemek (* işareti ile):
+*.log
+*.csv
+*.pkl
+
+# 3. Bir klasörü ve içindeki her şeyi gizlemek (sonuna / koyarak):
+venv/
+__pycache__/
+.ipynb_checkpoints/
+node_modules/
+pdflerfalan/
+
+# 4. İstisna tanımlamak (! işareti ile):
+# Tüm .csv dosyalarını gizle ama 'ornek_veri.csv' dosyasını takip et:
+*.csv
+!ornek_veri.csv
