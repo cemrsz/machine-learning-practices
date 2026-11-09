@@ -36,7 +36,7 @@ iterations=1000
 y_pred=np.dot(X_train,w)+b  
    #moodeli yazıyorum bütün xtrain değeri için çarpıp toplasın tek değer cıkarsın 
 #modeli her yerde tekrar tekrar yazmak istemiyorum global tanımladım ondan dolayı
-learnin_rate=0.0004 #bunu mühendis değiştirir en optimali bulmak için bi bakıcam simdilik 2 verdim
+learnin_rate=2.5e-10 #bunu mühendis değiştirir en optimali bulmak için bi bakıcam simdilik 2 verdim
 
 
 def compute_cost (y_train,m,y_pred):#model için olan parametrelere gerek yok vermedim ondan
@@ -62,16 +62,16 @@ def gradient_descent(w,b,m,y_train,y_pred,X_train,iterations,learnin_rate):
     y_pred=np.dot(X_train,w)+b 
    return w,b 
 
-#grafikler
-plt.scatter(X_train[:,1],y_train)
-plt.xlabel("kilometre")
-plt.ylabel("fiyat")
 w,b=gradient_descent(w,b,m,y_train,y_pred,X_train,iterations,learnin_rate)#modeli eğittim
 y_pred=np.dot(X_train,w)+b  #SON DEĞERLER İLE YAPILAN TAHMİNLER 
 
-order = np.argsort(X_train[:, 1])
-plt.plot(X_train[order, 1], y_pred[order], color="red")
-plt.show()
+print(y_pred)
+
+ #en son modelleri eğitttim bu 3 fonksiyonu dopru yazdım notlarımı falan aldı
+ #ama herghangi bir grafik göremedim cünkü scale etmedim ondan dolayı cok büyük oldu grafik gözükmedi tabloda
+ #bunu cözmek icin z score kullanıp scale edeceğim yarın onunla ilgili notları alacagım
+ 
+
 
 
 
